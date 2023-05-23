@@ -3,3 +3,4 @@ Um conjunto de pequenos exemplos, projetos e rascunhos da biblioteca pygame, par
 
 ##
 1. [Menu](https://github.com/AmaralVinicius/pygame-tutorials/tree/main/menu)
+2. [Shooter (Sprites e Groups)](https://github.com/AmaralVinicius/pygame-tutorials/tree/main/shooter%20(Sprites%20e%20Groups))
