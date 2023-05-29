@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 import random
 
 # Inicialização geral
@@ -63,6 +64,7 @@ class Shot(pygame.sprite.Sprite):
         self.created_time = pygame.time.get_ticks()
         self.collisionable = True
         self.targets_groups = (red_targets_group, green_targets_group)
+        self.scorer_group = scorer_group
 
     def update(self):
         self.current_time = pygame.time.get_ticks()
@@ -72,7 +74,7 @@ class Shot(pygame.sprite.Sprite):
             for group in self.targets_groups:
                 for target in pygame.sprite.spritecollide(self, group,False):
                     self.collisionable = False # Desativa colisão do tiro, para não colidir com alvos novos caso sejam gerados
-                    scorer_group.sprites()[0].change_score(target.value) # Envia o valor do alvo para o score
+                    self.scorer_group.sprites()[0].change_score(target.value) # Envia o valor do alvo para o score
                     target.kill() # Deleta o alvo atingido
 
         # Deleta tiro se após 10 segundos 
@@ -156,7 +158,7 @@ while run:
 
     # Controle de eventos
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == QUIT:
             run = False
 
     # Background
