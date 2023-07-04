@@ -23,17 +23,30 @@ class Object(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.topleft = pos
+        self.hover = False
+        self.clicked = False
 
     def update(self):
-        # Funções de drag and drop
+        # Estado de sobreposição do mouse sobre objeto (hover)
         if self.rect.collidepoint(pygame.mouse.get_pos()) and not pygame.mouse.get_pressed()[0]:
             self.hover = True
-        if not self.rect.collidepoint(pygame.mouse.get_pos()):
-            self.hover = False
+        if self.hover and not self.rect.collidepoint(pygame.mouse.get_pos()):
+            if not pygame.mouse.get_pressed()[0]:
+                self.hover = False
 
+        # Estado de click do mouse sobre objeto (clicked)
         if self.hover and pygame.mouse.get_pressed()[0]:
-            # Atualiza a posição do objeto para a posição do mouse
-            self.rect.center = pygame.mouse.get_pos()
+            if not self.clicked:
+                self.clicked = True
+                # Define a posição do click usando a diferença do centro do objeto, e da posição do mouse ao clicar
+                self.point_clicked = (self.rect.centerx - pygame.mouse.get_pos()[0], self.rect.centery - pygame.mouse.get_pos()[1])
+        else:
+            self.clicked = False
+
+        # Move o objeto com base na posição do click adicionando a posição do mouse, e a diferença calculada ao clicar
+        if self.clicked:
+            self.pos = (pygame.mouse.get_pos()[0] + self.point_clicked[0], pygame.mouse.get_pos()[1] + self.point_clicked[1])
+            self.rect.center = self.pos
 
 # Object gruop
 objects_group = pygame.sprite.Group()
