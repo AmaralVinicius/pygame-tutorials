@@ -10,6 +10,7 @@ clock = pygame.time.Clock()
 screen_width = 960
 screen_height = 720
 screen = pygame.display.set_mode((screen_width, screen_height))
+screen_rect = screen.get_rect()
 pygame.display.set_caption('Drag And Drop')
 
 # Variáveis gerais
@@ -47,6 +48,10 @@ class Object(pygame.sprite.Sprite):
         if self.clicked:
             self.pos = (pygame.mouse.get_pos()[0] + self.point_clicked[0], pygame.mouse.get_pos()[1] + self.point_clicked[1])
             self.rect.center = self.pos
+
+        # Limita a posição do objeto ao retângulo da tela
+        self.rect.clamp_ip(screen_rect)
+        
 
 # Object gruop
 objects_group = pygame.sprite.Group()
